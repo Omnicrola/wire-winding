@@ -1,0 +1,79 @@
+<link rel="import" href="../wire-gauges/wire-gauges.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module is="wire-winding-input">
+    <style>
+        paper-input paper-button {
+            display: inline-block;
+        }
+
+        paper-input {
+            padding: 8px;
+            margin: 4px;
+        }
+
+        paper-button {
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px;
+        }
+    </style>
+    <template>
+        <wire-gauges awg="{{awg}}"></wire-gauges>
+        <paper-input
+                label="Original AWG"
+                maxlength="4"
+                prevent-invalid-input
+                allowed-pattern="[0-9]"
+                value="{{inputGauge}}"
+                ></paper-input>
+        <paper-input
+                label="Wires in hand"
+                max="1000"
+                min="1"
+                prevent-invalid-input
+                allowed-pattern="[0-9]"
+                value="{{inputWireCount}}"
+                ></paper-input>
+        <paper-input
+                label="Circular Mils"
+                readonly
+                value="{{circularMils}}"
+                ></paper-input>
+        <paper-button>
+            <paper-icon icon="search">Find</paper-icon>
+        </paper-button>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: "wire-winding-input",
+                properties: {
+                    inputGauge: {
+                        type: Number,
+                        notify: true,
+                        observer: '_updateCM'
+                    },
+                    inputWireCount: {
+                        type: Number,
+                        notify: true,
+                        observer: '_updateCM'
+                    },
+                    circularMils: {
+                        type: Number,
+                        notify: true,
+                    },
+                },
+                _updateCM: function (newValue, oldValue) {
+                    var wireGauge = this.awg[this.inputGauge];
+                    if (wireGauge) {
+                        this.circularMils = wireGauge.circularMils * this.inputWireCount;
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>
