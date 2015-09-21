@@ -1,7 +1,14 @@
 <dom-module id="wire-winding-calculator">
     <style></style>
     <template>
-        <span>{{targetCircularMils}}</span>
+        <wire-gauges id="gauges"></wire-gauges>
+        <template is="dom-repeat" items="{{solutions}}" as="solution">
+            <paper-material class="row-container" elevation="1">
+                <span>{{solution.percentage}}</span>
+                <span>{{solution.awg}}</span>
+                <span>{{solution.count}}</span>
+            </paper-material>
+        </template>
     </template>
     <script>
         (function () {
@@ -12,10 +19,29 @@
                         type: Number,
                         value: 0,
                         observer: '_recalculateSolutions'
+                    },
+                    targetGauge: {
+                        type: Number,
+                        value: 0,
+                    },
+                    solutions: {
+                        type: Array,
+                        value: []
                     }
                 },
                 _recalculateSolutions: function () {
-                    console.log('recalculating target: ' + this.targetCircularMils);
+                    if (this.solutions) {
+                        this._clearSolutions();
+                        var targetCM = this.targetCircularMils;
+                        var possibleGauges = this._getPossibleGauges(this.targetGauge);
+                        console.log(possibleGauges);
+                    }
+                },
+                _getPossibleGauges: function (targetGaugeName) {
+                    return this.$.gauges.getGaugesWithinTwoSteps(targetGaugeName);
+                },
+                _clearSolutions: function () {
+                    this.splice('solutions', 0, this.solutions.length);
                 }
             });
         })();

@@ -16,11 +16,17 @@
         <div>
             <paper-card>
                 <h2>Existing</h2>
-                <wire-winding-input circular-mils="{{targetCircularMils}}"></wire-winding-input>
+                <wire-winding-input
+                        input-gauge="{{targetGauge}}"
+                        circular-mils="{{targetCircularMils}}"
+                        ></wire-winding-input>
             </paper-card>
             <paper-card>
                 <h2>Results</h2>
-                <wire-winding-calculator target-circular-mils="{{targetCircularMils}}"></wire-winding-calculator>
+                <wire-winding-calculator
+                        target-gauge="{{targetGauge}}"
+                        target-circular-mils="{{targetCircularMils}}"
+                        ></wire-winding-calculator>
             </paper-card>
         </div>
     </paper-scroll-header-panel>

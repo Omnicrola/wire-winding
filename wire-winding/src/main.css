@@ -12,6 +12,11 @@ h2 {
     margin: 4px;
 }
 
+paper-card {
+    display: inline-block;
+    vertical-align: top;
+}
+
 paper-scroll-header-panel {
     height: 100%;
 }

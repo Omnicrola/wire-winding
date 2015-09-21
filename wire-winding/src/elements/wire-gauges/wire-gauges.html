@@ -5,8 +5,9 @@
     </template>
     <script>
         (function () {
-            function makeGauge(mils, cm, area, diameter) {
+            function makeGauge(awg, mils, cm, area, diameter) {
                 return {
+                    awg: awg,
                     diameterMils: mils,
                     circularMils: cm,
                     areaMillimeter: area,
@@ -15,48 +16,90 @@
             }
 
             function createGauges() {
-                var gauges = {
-                    '0000': makeGauge(460, 211592, 107, 11.7),
-                    '000': makeGauge(410, 167800, 85.0, 10.4),
-                    '00': makeGauge(365, 133072, 67.4, 9.27),
-                    '0': makeGauge(325, 105531, 53.5, 8.25),
-                    '1': makeGauge(289, 83690, 42.4, 7.35),
-                    '2': makeGauge(258, 66369, 33.6, 6.54),
-                    '3': makeGauge(229, 52633, 26.7, 5.83),
-                    '4': makeGauge(204, 41740, 21.2, 5.19),
-                    '5': makeGauge(182, 33101, 16.8, 4.62),
-                    '6': makeGauge(162, 26251, 13.3, 4.12),
-                    '7': makeGauge(144, 20818, 10.5, 3.67),
-                    '8': makeGauge(128, 16509, 8.37, 3.26),
-                    '9': makeGauge(114, 13092, 6.63, 2.91),
-                    '10': makeGauge(102, 10383, 5.26, 2.59),
-                    '11': makeGauge(90.7, 8234, 4.17, 2.31),
-                    '12': makeGauge(80.8, 6530, 3.31, 2.05),
-                    '13': makeGauge(72.0, 5178, 2.62, 1.83),
-                    '14': makeGauge(64.1, 4107, 2.08, 1.63),
-                    '15': makeGauge(57.1, 3257, 1.65, 1.45),
-                    '16': makeGauge(50.8, 2583, 1.31, 1.29),
-                    '17': makeGauge(45.3, 2048, 1.04, 1.15),
-                    '20': makeGauge(32.0, 1022, 0.518, 0.812),
-                    '21': makeGauge(28.5, 810.1, 0.410, 0.723),
-                    '22': makeGauge(25.3, 642.4, 0.326, 0.644),
-                    '23': makeGauge(22.6, 509.5, 0.258, 0.573),
-                    '24': makeGauge(20.1, 404.0, 0.205, 0.511),
-                    '25': makeGauge(17.9, 320.4, 0.162, 0.455)
-                };
+                var gauges = [];
+                gauges['0000'] = makeGauge('0000', 460, 211592, 107, 11.7);
+                gauges['000'] = makeGauge('000', 410, 167800, 85.0, 10.4);
+                gauges['00'] = makeGauge('00', 365, 133072, 67.4, 9.27);
+                gauges['0'] = makeGauge('0', 325, 105531, 53.5, 8.25);
+                gauges['1'] = makeGauge('1', 289, 83690, 42.4, 7.35);
+                gauges['2'] = makeGauge('2', 258, 66369, 33.6, 6.54);
+                gauges['3'] = makeGauge('3', 229, 52633, 26.7, 5.83);
+                gauges['4'] = makeGauge('4', 204, 41740, 21.2, 5.19);
+                gauges['5'] = makeGauge('5', 182, 33101, 16.8, 4.62);
+                gauges['6'] = makeGauge('6', 162, 26251, 13.3, 4.12);
+                gauges['7'] = makeGauge('7', 144, 20818, 10.5, 3.67);
+                gauges['8'] = makeGauge('8', 128, 16509, 8.37, 3.26);
+                gauges['9'] = makeGauge('9', 114, 13092, 6.63, 2.91);
+                gauges['10'] = makeGauge('10', 102, 10383, 5.26, 2.59);
+                gauges['11'] = makeGauge('11', 90.7, 8234, 4.17, 2.31);
+                gauges['12'] = makeGauge('12', 80.8, 6530, 3.31, 2.05);
+                gauges['13'] = makeGauge('13', 72.0, 5178, 2.62, 1.83);
+                gauges['14'] = makeGauge('14', 64.1, 4107, 2.08, 1.63);
+                gauges['15'] = makeGauge('15', 57.1, 3257, 1.65, 1.45);
+                gauges['16'] = makeGauge('16', 50.8, 2583, 1.31, 1.29);
+                gauges['17'] = makeGauge('17', 45.3, 2048, 1.04, 1.15);
+                gauges['20'] = makeGauge('20', 32.0, 1022, 0.518, 0.812);
+                gauges['21'] = makeGauge('21', 28.5, 810.1, 0.410, 0.723);
+                gauges['22'] = makeGauge('22', 25.3, 642.4, 0.326, 0.644);
+                gauges['23'] = makeGauge('23', 22.6, 509.5, 0.258, 0.573);
+                gauges['24'] = makeGauge('24', 20.1, 404.0, 0.205, 0.511);
+                gauges['25'] = makeGauge('25', 17.9, 320.4, 0.162, 0.455);
+
                 return gauges;
             }
 
+            var gaugeIndexMap = [
+                '0000',
+                '000',
+                '00',
+                '0',
+                '1',
+                '2',
+                '3',
+                '4',
+                '5',
+                '6',
+                '7',
+                '8',
+                '9',
+                '10',
+                '11',
+                '12',
+                '13',
+                '14',
+                '15',
+                '16',
+                '17',
+                '20',
+                '21',
+                '22',
+                '23',
+                '24',
+                '25'
+            ];
             Polymer({
                 is: 'wire-gauges',
                 properties: {
                     awg: {
-                        type: Object,
+                        type: Array,
                         notify: true,
                         readOnly: true,
                         value: createGauges()
                     }
-                }
+                },
+                getGaugesWithinTwoSteps: function (targetGaugeName) {
+                    var possibleGauges = [];
+                    var targetGaugeIndex = gaugeIndexMap.indexOf(targetGaugeName);
+                    if (targetGaugeIndex) {
+                        var gaugeCount = this.awg.length;
+                        for (var i = targetGaugeIndex - 2; i <= targetGaugeIndex + 2; i++) {
+                            if (i >= 0 && i <= gaugeCount) {
+                                possibleGauges.push(this.awg[gaugeIndexMap[i]]);
+                            }
+                        }
+                    }
+                    return possibleGauges;
+                },
             });
         })();
     </script>
