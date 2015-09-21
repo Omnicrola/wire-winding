@@ -1,0 +1,23 @@
+<dom-module id="wire-winding-calculator">
+    <style></style>
+    <template>
+        <span>{{targetCircularMils}}</span>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'wire-winding-calculator',
+                properties: {
+                    targetCircularMils: {
+                        type: Number,
+                        value: 0,
+                        observer: '_recalculateSolutions'
+                    }
+                },
+                _recalculateSolutions: function () {
+                    console.log('recalculating target: ' + this.targetCircularMils);
+                }
+            });
+        })();
+    </script>
+</dom-module>

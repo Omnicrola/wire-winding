@@ -55,11 +55,13 @@
                     inputGauge: {
                         type: Number,
                         notify: true,
+                        value: '17',
                         observer: '_updateCM'
                     },
                     inputWireCount: {
                         type: Number,
                         notify: true,
+                        value: '10',
                         observer: '_updateCM'
                     },
                     circularMils: {
@@ -67,10 +69,15 @@
                         notify: true,
                     },
                 },
+                ready:function(){
+                  this._updateCM();
+                },
                 _updateCM: function (newValue, oldValue) {
-                    var wireGauge = this.awg[this.inputGauge];
-                    if (wireGauge) {
-                        this.circularMils = wireGauge.circularMils * this.inputWireCount;
+                    if (this.awg) {
+                        var wireGauge = this.awg[this.inputGauge];
+                        if (wireGauge) {
+                            this.circularMils = wireGauge.circularMils * this.inputWireCount;
+                        }
                     }
                 }
             });

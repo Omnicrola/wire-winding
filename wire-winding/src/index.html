@@ -4,24 +4,26 @@
     <meta charset="UTF-8">
     <title>Wire Winding Utility</title>
 
-    <!--<script src="components/webcomponents-lite.js"></script>-->
-    <!--<script src="components/platform.js"></script>-->
-
     <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../bower_components/platform/platform.js"></script>
-    <link rel="import" href="../bower_components/polymer/polymer.html">
     <link rel="import" href="elements/elements.html">
-    <style rel="stylesheet" type="text/css" href="main.css"></style>
+    <link rel="stylesheet" type="text/css" href="main.css">
 
 </head>
-<body unresolved>
-<template is="dom-bind" id="content">
-    <paper-material elevation="1">
-        <h1>Wire Winding</h1>
-        <paper-card>
-            <wire-winding-input></wire-winding-input>
-        </paper-card>
-    </paper-material>
+<body class="fullbleed layout vertical">
+<template is="dom-bind">
+    <paper-scroll-header-panel>
+        <paper-toolbar><h1>Wire Winding</h1></paper-toolbar>
+        <div>
+            <paper-card>
+                <h2>Existing</h2>
+                <wire-winding-input circular-mils="{{targetCircularMils}}"></wire-winding-input>
+            </paper-card>
+            <paper-card>
+                <h2>Results</h2>
+                <wire-winding-calculator target-circular-mils="{{targetCircularMils}}"></wire-winding-calculator>
+            </paper-card>
+        </div>
+    </paper-scroll-header-panel>
 </template>
 </body>
 <script src="js/main.js"></script>
