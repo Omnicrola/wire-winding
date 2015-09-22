@@ -4,7 +4,7 @@ var concat = require('gulp-concat');
 var useref = require('gulp-useref');
 
 var outputFolder = './dist';
-gulp.task('default', ['copy-index', 'vulcanize', 'scripts', 'copy-webcomponents']);
+gulp.task('default', ['styles', 'vulcanize', 'scripts', 'copy-webcomponents']);
 
 gulp.task('vulcanize', function () {
     return gulp.src([
@@ -27,8 +27,8 @@ gulp.task('copy-webcomponents', function () {
         .pipe(gulp.dest(outputFolder + '/components'));
 });
 
-gulp.task('copy-index', function () {
-    return gulp.src('./index.html')
+gulp.task('styles', function () {
+    return gulp.src('src/main.css')
         .pipe(gulp.dest(outputFolder));
 });
 
