@@ -1,14 +1,45 @@
+<link rel="import" href="../wire-winding-solution/wire-winding-solution.html">
+
 <dom-module id="wire-winding-calculator">
-    <style></style>
+    <style>
+        .solution {
+            margin: 8px;
+        }
+
+        .solution tr th, .solution tr td {
+            text-align: right;
+            padding: 4px 8px;
+            margin: 0;
+            border: none;
+            border-collapse: collapse;
+        }
+
+        .solution tr {
+            border-bottom: solid 1px lightgray;
+        }
+
+        .solution tr:hover {
+            background: #EEEEEE;
+        }
+    </style>
     <template>
         <wire-gauges id="gauges"></wire-gauges>
-        <template is="dom-repeat" items="{{solutions}}" as="solution">
-            <paper-material class="row-container" elevation="1">
-                <span>{{solution.percentage}}</span>
-                <span>{{solution.awg}}</span>
-                <span>{{solution.count}}</span>
-            </paper-material>
-        </template>
+        <table class="solution">
+            <tr>
+                <th>AWG</th>
+                <th>Wires</th>
+                <th>CM</th>
+                <th>Deviation</th>
+            </tr>
+            <template is="dom-repeat" items="{{solutions}}" as="solution">
+                <tr>
+                    <td>{{solution.awg}}</td>
+                    <td>{{solution.count}}</td>
+                    <td>{{numberFormat(solution.circularMils,0)}}</td>
+                    <td>{{numberFormat(solution.percentage, 2)}}<span>%</span></td>
+                </tr>
+            </template>
+        </table>
     </template>
     <script>
         (function () {
@@ -34,7 +65,7 @@
                         this._clearSolutions();
                         var targetCM = this.targetCircularMils;
                         var possibleGauges = this._getPossibleGauges(this.targetGauge);
-                        console.log(possibleGauges);
+                        this._calculateSolutions(targetCM, possibleGauges);
                     }
                 },
                 _getPossibleGauges: function (targetGaugeName) {
@@ -42,6 +73,31 @@
                 },
                 _clearSolutions: function () {
                     this.splice('solutions', 0, this.solutions.length);
+                },
+                _calculateSolutions: function (targetCM, possibleGauges) {
+                    var element = this;
+                    possibleGauges.forEach(function (gauge) {
+                        var count = Math.round(targetCM / gauge.circularMils);
+                        var circularMils = count * gauge.circularMils;
+                        var percentage = Math.abs((circularMils / targetCM * 100) - 100);
+                        var newSolution = {
+                            percentage: percentage,
+                            awg: gauge.awg,
+                            count: count,
+                            circularMils: circularMils
+                        };
+                        element.push('solutions', newSolution);
+                    });
+                },
+                numberFormat: function (value, decimals) {
+                    if (isNaN(value)) {
+                        return '';
+                    } else {
+                        value = Number(value);
+                        value = value.toFixed(decimals);
+                        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        return value;
+                    }
                 }
             });
         })();

@@ -5,20 +5,10 @@
 
 <dom-module is="wire-winding-input">
     <style>
-        paper-input paper-button {
-            display: inline-block;
-        }
 
         paper-input {
             padding: 8px;
             margin: 4px;
-        }
-
-        paper-button {
-            border: 1px solid lightgray;
-            border-radius: 5px;
-            padding: 5px;
-            margin: 5px;
         }
     </style>
     <template>
@@ -43,9 +33,6 @@
                 readonly
                 value="{{circularMils}}"
                 ></paper-input>
-        <paper-button>
-            <paper-icon icon="search">Find</paper-icon>
-        </paper-button>
     </template>
     <script>
         (function () {
@@ -69,8 +56,8 @@
                         notify: true,
                     },
                 },
-                ready:function(){
-                  this._updateCM();
+                ready: function () {
+                    this._updateCM();
                 },
                 _updateCM: function (newValue, oldValue) {
                     if (this.awg) {

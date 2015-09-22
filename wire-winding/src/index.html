@@ -14,15 +14,15 @@
     <paper-scroll-header-panel>
         <paper-toolbar><h1>Wire Winding</h1></paper-toolbar>
         <div>
-            <paper-card>
-                <h2>Existing</h2>
+            <paper-card id="existing">
+                <h2>Existing  Winding</h2>
                 <wire-winding-input
                         input-gauge="{{targetGauge}}"
                         circular-mils="{{targetCircularMils}}"
                         ></wire-winding-input>
             </paper-card>
-            <paper-card>
-                <h2>Results</h2>
+            <paper-card id="results">
+                <h2>Possible Variations</h2>
                 <wire-winding-calculator
                         target-gauge="{{targetGauge}}"
                         target-circular-mils="{{targetCircularMils}}"

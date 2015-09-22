@@ -17,6 +17,10 @@ paper-card {
     vertical-align: top;
 }
 
+#existing {
+    margin-bottom: 20px;
+}
+
 paper-scroll-header-panel {
     height: 100%;
 }
