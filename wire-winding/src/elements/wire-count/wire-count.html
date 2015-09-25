@@ -1,0 +1,21 @@
+<dom-module id="wire-count">
+    <style></style>
+    <template>
+        <template is="dom-repeat" items="{{wires}}" as="wire">
+            <span>{{wire.awg}}</span>[<span>{{wire.count}}</span>]
+        </template>
+    </template>
+    <script>
+        (function () {
+            Polymer({
+                is: 'wire-count',
+                properties: {
+                    wires: {
+                        type: Array,
+                        value: [],
+                    },
+                }
+            });
+        })();
+    </script>
+</dom-module>
