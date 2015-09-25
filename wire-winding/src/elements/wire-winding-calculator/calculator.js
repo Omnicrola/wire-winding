@@ -16,8 +16,8 @@
             },
             solutions: {
                 type: Array,
-                value: []
-            }
+                value: [],
+            },
         },
         _recalculateSolutions: function () {
             if (this.solutions) {
@@ -33,13 +33,14 @@
         _clearSolutions: function () {
             this.splice('solutions', 0, this.solutions.length);
         },
-        numberFormat: function (value, decimals) {
+        numberFormat: function (value, decimals, seperator) {
+            seperator = (seperator == undefined) ? ',' : seperator;
             if (isNaN(value)) {
                 return '';
             } else {
                 value = Number(value);
                 value = value.toFixed(decimals);
-                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, seperator)
                 return value;
             }
         }
@@ -49,16 +50,28 @@
         var possibleGauges = options.gaugeModel.getGaugesWithinTwoSteps(options.targetGauge);
         var primaryGauge = options.targetGauge;
 
+        var allSolutions = [];
         possibleGauges.forEach(function (primaryGauge) {
             possibleGauges.forEach(function (secondaryGauge) {
                 if (primaryGauge != secondaryGauge) {
                     var solutionsForPair = findAllSolutionsForPair(primaryGauge, secondaryGauge, options.targetCM);
-                    solutionsForPair.forEach(function (newSolution) {
-                        options.element.push('solutions', newSolution);
-                    });
+                    allSolutions = allSolutions.concat(solutionsForPair);
                 }
             });
         });
+        allSolutions.sort(function (s1, s2) {
+            if (s1.percentage < s2.percentage) {
+                return -1;
+            }
+            if (s1.percentage > s2.percentage) {
+                return 1;
+            }
+            return 0;
+        });
+
+        var maxSize = 50;
+        allSolutions.splice(maxSize, allSolutions.length - maxSize);
+        options.element.solutions = allSolutions;
     }
 
     function findAllSolutionsForPair(primaryGauge, secondaryGauge, targetCM) {
@@ -66,7 +79,7 @@
         var maxCount = Math.round(targetCM / primaryGauge.circularMils);
         for (var primaryCount = 1; primaryCount <= maxCount; primaryCount++) {
             var primaryCircularMils = primaryCount * primaryGauge.circularMils;
-            var secondaryCount = Math.round((targetCM-primaryCircularMils) / secondaryGauge.circularMils);
+            var secondaryCount = Math.round((targetCM - primaryCircularMils) / secondaryGauge.circularMils);
             var secondaryCircularMils = secondaryCount * secondaryGauge.circularMils;
 
             var totalCircularMils = primaryCircularMils + secondaryCircularMils;
